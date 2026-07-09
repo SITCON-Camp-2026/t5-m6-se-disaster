@@ -18,9 +18,7 @@ export type Phase0SuggestedNextStep =
   | "do_not_use_yet";
 
 export type Phase0ReviewOutcome =
-  | "raw"
-  | "candidate_pending"
-  | "verified_action";
+  "raw" | "candidate_pending" | "verified_action";
 
 export type Phase0MessyRecord = {
   id: string;

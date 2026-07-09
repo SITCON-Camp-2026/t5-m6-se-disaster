@@ -60,9 +60,7 @@ export function Phase0FinalResults({
                     <div className="record-card__header">
                       <div>
                         <h3>{record.id}</h3>
-                        <p className="final-results__summary">
-                          已驗證可行動
-                        </p>
+                        <p className="final-results__summary">已驗證可行動</p>
                       </div>
                       <StatusBadge status={record.verificationStatus} />
                     </div>
@@ -70,7 +68,9 @@ export function Phase0FinalResults({
                     <p>{record.rawText}</p>
 
                     <div className="record-card__meta">
-                      <span>{reviewOutcomeLabels[drafts[record.id].reviewOutcome]}</span>
+                      <span>
+                        {reviewOutcomeLabels[drafts[record.id].reviewOutcome]}
+                      </span>
                     </div>
                   </article>
                 ))}
@@ -102,7 +102,9 @@ export function Phase0FinalResults({
                     <p>{record.rawText}</p>
 
                     <div className="record-card__meta">
-                      <span>{reviewOutcomeLabels[drafts[record.id].reviewOutcome]}</span>
+                      <span>
+                        {reviewOutcomeLabels[drafts[record.id].reviewOutcome]}
+                      </span>
                     </div>
                   </article>
                 ))}
