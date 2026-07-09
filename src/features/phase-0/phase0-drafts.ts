@@ -6,6 +6,7 @@ export function draftFromRecord(
 ): Phase0JudgementDraft {
   return {
     ...createPhase0Judgement(record),
+    reviewOutcome: "candidate_pending",
     humanReviewNote: "請確認來源是否能提供更多現場細節。",
   };
 }

@@ -61,6 +61,7 @@
 | ----- | ------- | -------------- | ----------------------------------------------------------- | ----------- | ----------------------------------------------------- | --------------------------------------------- |
 | 14:20 | Release 01 | 三 persona 模擬回饋 | 使用 sub-agent prompt 模擬回報者、資訊整理者、行動者角度 | 採用        | 以人格化回饋填滿 `docs/interview-notes.md`，保留評論而非功能清單 | `docs/interview-notes.md`                    |
 | 14:25 | Release 01 | 訪談彙整與取捨   | 將回饋整理為共同需求、衝突需求、風險、設計方向與取捨 | 採用        | 幫助明確定位 v1 主要服務對象，避免直接放大到行動判斷 | `docs/interview-summary.md`, `docs/decisions.md` |
+| 15:05 | Release 02 | 流程設計與實作   | 依據 `docs/flow.md` 增加 `reviewOutcome` 審核狀態，讓最終成果區分「已驗證可行動」與「待確認候選」 | 採用        | 讓行動者只看到已驗證可行動資料，並保留待確認候選給整理者 | `docs/flow.md`, `src/features/phase-0/Phase0FinalResults.tsx`, `src/features/phase-0/Phase0JudgementCard.tsx`, `src/features/phase-0/phase0-heuristics.ts`, `src/features/phase-0/phase0-types.ts`, `src/features/phase-0/Phase0Workbench.tsx` |
 
 ## 課後反思
 

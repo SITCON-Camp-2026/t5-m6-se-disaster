@@ -28,6 +28,15 @@ const nextStepLabels: Record<
   do_not_use_yet: "暫時不要使用",
 };
 
+const reviewOutcomeLabels: Record<
+  Phase0JudgementDraft["reviewOutcome"],
+  string
+> = {
+  raw: "原始回報",
+  candidate_pending: "候選結果（待確認）",
+  verified_action: "已驗證可行動",
+};
+
 export function Phase0JudgementCard({
   judgement,
   record,
@@ -62,6 +71,10 @@ export function Phase0JudgementCard({
         <div>
           <dt>下一步</dt>
           <dd>{nextStepLabels[judgement.suggestedNextStep]}</dd>
+        </div>
+        <div>
+          <dt>審核狀態</dt>
+          <dd>{reviewOutcomeLabels[judgement.reviewOutcome]}</dd>
         </div>
       </dl>
 

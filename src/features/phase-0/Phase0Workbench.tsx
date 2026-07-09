@@ -10,6 +10,7 @@ import type {
   Phase0PossibleKind,
   Phase0Confidence,
   Phase0SuggestedNextStep,
+  Phase0ReviewOutcome,
 } from "./phase0-types";
 
 const kindOptions: Array<{ value: Phase0PossibleKind; label: string }> = [
@@ -37,6 +38,15 @@ const nextStepOptions: Array<{
   { value: "create_candidate_report", label: "建立候選通報" },
   { value: "create_site_update_suggestion", label: "建立地點更新建議" },
   { value: "do_not_use_yet", label: "暫時不要使用" },
+];
+
+const reviewOutcomeOptions: Array<{
+  value: Phase0ReviewOutcome;
+  label: string;
+}> = [
+  { value: "raw", label: "原始回報，保留待補充" },
+  { value: "candidate_pending", label: "候選結果（待確認）" },
+  { value: "verified_action", label: "已驗證可行動" },
 ];
 
 function DraftEditor({
@@ -128,6 +138,25 @@ function DraftEditor({
             }
           >
             {nextStepOptions.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </label>
+
+        <label>
+          審核狀態
+          <select
+            value={editingDraft.reviewOutcome}
+            onChange={(event) =>
+              updateDraftField(
+                "reviewOutcome",
+                event.target.value as Phase0ReviewOutcome,
+              )
+            }
+          >
+            {reviewOutcomeOptions.map((option) => (
               <option key={option.value} value={option.value}>
                 {option.label}
               </option>

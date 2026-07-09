@@ -15,6 +15,7 @@ export function createPhase0Judgement(
       ? ["仍需確認這筆資訊適合進入哪個後續流程。"]
       : ["目前不是已確認資訊，不能直接行動或當成事實發布。"],
     suggestedNextStep: isVerified ? "keep_raw" : "send_to_human_review",
+    reviewOutcome: isVerified ? "verified_action" : "raw",
     unsafeToActDirectly: true,
   };
 }
