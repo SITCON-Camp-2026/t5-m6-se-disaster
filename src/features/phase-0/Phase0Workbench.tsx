@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { RecordCard } from "../../components/RecordCard";
 import { StatusBadge } from "../../components/StatusBadge";
+import { draftFromRecord } from "./phase0-drafts";
 import { Phase0JudgementCard } from "./Phase0JudgementCard";
 import { createPhase0Judgement } from "./phase0-heuristics";
 import type {
@@ -38,13 +39,6 @@ const nextStepOptions: Array<{
   { value: "do_not_use_yet", label: "暫時不要使用" },
 ];
 
-function draftFromRecord(record: Phase0MessyRecord): Phase0JudgementDraft {
-  return {
-    ...createPhase0Judgement(record),
-    humanReviewNote: "請確認來源是否能提供更多現場細節。",
-  };
-}
-
 function DraftEditor({
   record,
   draft,
@@ -68,7 +62,9 @@ function DraftEditor({
   }
 
   function resetDraft() {
-    setEditingDraft(draftFromRecord(record));
+    const reset = draftFromRecord(record);
+    setEditingDraft(reset);
+    onSave(reset);
   }
 
   const draftStatusText = draft
@@ -204,50 +200,29 @@ export function Phase0Workbench({
   records,
   selectedRecordId,
   onSelect,
+  drafts,
+  onSaveDraft,
+  onDeleteDraft,
 }: {
   records: Phase0MessyRecord[];
   selectedRecordId: string;
   onSelect: (recordId: string) => void;
+  drafts: Record<string, Phase0JudgementDraft>;
+  onSaveDraft: (draft: Phase0JudgementDraft) => void;
+  onDeleteDraft: (recordId: string) => void;
 }) {
   const selectedRecord =
     records.find((record) => record.id === selectedRecordId) ?? records[0];
 
-  const initialDraftIds = [
-    "M-001",
-    "M-003",
-    "M-006",
-    "M-008",
-    "M-009",
-    "M-010",
-  ];
-
-  const [drafts, setDrafts] = useState<Record<string, Phase0JudgementDraft>>(
-    () =>
-      Object.fromEntries(
-        records
-          .filter((record) => initialDraftIds.includes(record.id))
-          .map((record) => [record.id, draftFromRecord(record)]),
-      ),
-  );
-
   const selectedDraft = drafts[selectedRecord.id];
 
   function saveDraft(draft: Phase0JudgementDraft) {
-    setDrafts((previous) => ({
-      ...previous,
-      [selectedRecord.id]: draft,
-    }));
+    onSaveDraft(draft);
   }
 
   function deleteDraft() {
-    setDrafts((previous) => {
-      const nextDrafts = { ...previous };
-      delete nextDrafts[selectedRecord.id];
-      return nextDrafts;
-    });
+    onDeleteDraft(selectedRecord.id);
   }
-
-  const draftCount = Object.keys(drafts).length;
 
   const safetyBoundary = useMemo(
     () => createPhase0Judgement(selectedRecord),
@@ -297,7 +272,6 @@ export function Phase0Workbench({
             record={selectedRecord}
           />
         </div>
-
       </div>
     </div>
   );

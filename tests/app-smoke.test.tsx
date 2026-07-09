@@ -58,4 +58,43 @@ describe("App", () => {
       screen.queryByText(/已產生 \d+ 筆安全邊界草稿/),
     ).not.toBeInTheDocument();
   });
+
+  it("shows the final results page and explains draft effects", () => {
+    render(<App />);
+
+    fireEvent.click(screen.getByRole("button", { name: "最終成果" }));
+
+    expect(
+      screen.getByText(/第二頁的儲存草稿、重設成安全預設和刪除草稿/),
+    ).toBeInTheDocument();
+    expect(screen.getByText(/筆草稿已儲存/)).toBeInTheDocument();
+  });
+
+  it("removes only the selected deleted draft from the final results page", () => {
+    render(<App />);
+
+    fireEvent.click(screen.getByRole("button", { name: "整理工作台" }));
+    fireEvent.click(screen.getByRole("button", { name: /M-003/ }));
+    fireEvent.click(screen.getByRole("button", { name: "刪除草稿" }));
+    fireEvent.click(screen.getByRole("button", { name: "最終成果" }));
+
+    expect(
+      screen.queryByRole("heading", { name: "M-003" }),
+    ).not.toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "M-001" })).toBeInTheDocument();
+    expect(screen.getByText(/5 筆草稿已儲存/)).toBeInTheDocument();
+  });
+
+  it("shows a reset safe draft again in the final results page", () => {
+    render(<App />);
+
+    fireEvent.click(screen.getByRole("button", { name: "整理工作台" }));
+    fireEvent.click(screen.getByRole("button", { name: /M-003/ }));
+    fireEvent.click(screen.getByRole("button", { name: "刪除草稿" }));
+    fireEvent.click(screen.getByRole("button", { name: "重設成安全預設" }));
+    fireEvent.click(screen.getByRole("button", { name: "最終成果" }));
+
+    expect(screen.getByRole("heading", { name: "M-003" })).toBeInTheDocument();
+    expect(screen.getByText(/6 筆草稿已儲存/)).toBeInTheDocument();
+  });
 });

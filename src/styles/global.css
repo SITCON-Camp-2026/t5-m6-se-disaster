@@ -98,6 +98,12 @@ button {
   gap: 16px;
 }
 
+.final-results__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+}
+
 .record-card {
   border: 1px solid #dbe4ef;
   border-radius: 8px;
@@ -130,6 +136,16 @@ button {
   gap: 4px;
   color: #5f6b7a;
   font-size: 0.9rem;
+}
+
+.final-results__card {
+  min-height: 190px;
+}
+
+.final-results__summary {
+  margin: 0;
+  color: #245d9d;
+  font-size: 0.95rem;
 }
 
 .record-card button,
@@ -344,7 +360,9 @@ button {
   background: #ffffff;
   color: #102a43;
   cursor: pointer;
-  transition: transform 0.15s ease, background 0.15s ease;
+  transition:
+    transform 0.15s ease,
+    background 0.15s ease;
 }
 
 .draft-editor__actions button:hover {

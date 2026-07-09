@@ -1,29 +1,65 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import messyReports from "../fixtures/phase-0/messy-reports.json";
 import { EmptyState } from "../components/EmptyState";
+import { draftFromRecord } from "../features/phase-0/phase0-drafts";
 import { Phase0RawInfoPanel } from "../features/phase-0/Phase0RawInfoPanel";
+import { Phase0FinalResults } from "../features/phase-0/Phase0FinalResults";
 import { Phase0Workbench } from "../features/phase-0/Phase0Workbench";
-import type { Phase0MessyRecord } from "../features/phase-0/phase0-types";
+import type {
+  Phase0JudgementDraft,
+  Phase0MessyRecord,
+} from "../features/phase-0/phase0-types";
 
-type TabKey = "raw" | "workbench";
+type TabKey = "raw" | "workbench" | "final";
 
 const tabs: Array<{ key: TabKey; label: string }> = [
   { key: "raw", label: "原始資訊" },
   { key: "workbench", label: "整理工作台" },
+  { key: "final", label: "最終成果" },
 ];
 
 const phase0Records = messyReports satisfies Phase0MessyRecord[];
+
+const initialDraftIds = ["M-001", "M-003", "M-006", "M-008", "M-009", "M-010"];
 
 export function App() {
   const [activeTab, setActiveTab] = useState<TabKey>("raw");
   const [selectedRecordId, setSelectedRecordId] = useState(
     phase0Records[0]?.id ?? "",
   );
+  const [drafts, setDrafts] = useState<Record<string, Phase0JudgementDraft>>(
+    () =>
+      Object.fromEntries(
+        phase0Records
+          .filter((record) => initialDraftIds.includes(record.id))
+          .map((record) => [record.id, draftFromRecord(record)]),
+      ),
+  );
 
   function selectForWorkbench(recordId: string) {
     setSelectedRecordId(recordId);
     setActiveTab("workbench");
   }
+
+  function saveDraft(draft: Phase0JudgementDraft) {
+    setDrafts((previous) => ({
+      ...previous,
+      [draft.messyRecordId]: draft,
+    }));
+  }
+
+  function deleteDraft(recordId: string) {
+    setDrafts((previous) => {
+      const nextDrafts = { ...previous };
+      delete nextDrafts[recordId];
+      return nextDrafts;
+    });
+  }
+
+  const finalStateMessage = useMemo(() => {
+    const savedCount = Object.keys(drafts).length;
+    return `${savedCount} 筆草稿已儲存；刪除草稿後會直接從最終成果移除。`;
+  }, [drafts]);
 
   return (
     <main className="layout">
@@ -58,11 +94,20 @@ export function App() {
             selectedRecordId={selectedRecordId}
             onSelect={selectForWorkbench}
           />
-        ) : (
+        ) : activeTab === "workbench" ? (
           <Phase0Workbench
             records={phase0Records}
             selectedRecordId={selectedRecordId}
             onSelect={setSelectedRecordId}
+            drafts={drafts}
+            onSaveDraft={saveDraft}
+            onDeleteDraft={deleteDraft}
+          />
+        ) : (
+          <Phase0FinalResults
+            records={phase0Records}
+            drafts={drafts}
+            finalStateMessage={finalStateMessage}
           />
         )}
       </section>
