@@ -274,6 +274,114 @@ button {
   color: #8a5a00;
 }
 
+.draft-editor {
+  border: 1px solid #dbe4ef;
+  border-radius: 18px;
+  padding: 22px;
+  background: #ffffff;
+  box-shadow: 0 12px 32px rgb(15 23 42 / 6%);
+}
+
+.draft-editor__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.draft-editor__header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.draft-editor__header p {
+  margin: 0;
+  color: #475569;
+  max-width: 520px;
+}
+
+.draft-editor__fields {
+  display: grid;
+  gap: 16px;
+}
+
+.draft-editor__fields label {
+  display: grid;
+  gap: 8px;
+  font-weight: 600;
+  color: #334155;
+}
+
+.draft-editor__fields select,
+.draft-editor__fields textarea {
+  width: 100%;
+  min-height: 42px;
+  border: 1px solid #d1d9e4;
+  border-radius: 12px;
+  padding: 12px 14px;
+  background: #f8fafc;
+  color: #0f172a;
+  font: inherit;
+}
+
+.draft-editor__fields textarea {
+  min-height: 108px;
+  resize: vertical;
+}
+
+.draft-editor__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.draft-editor__actions button {
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  padding: 10px 16px;
+  background: #ffffff;
+  color: #102a43;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.draft-editor__actions button:hover {
+  transform: translateY(-1px);
+  background: #f1f5f9;
+}
+
+.draft-editor__hint {
+  margin-top: 14px;
+  color: #64748b;
+  font-size: 0.93rem;
+  line-height: 1.6;
+}
+
+.workbench__queue button {
+  display: grid;
+  gap: 6px;
+  text-align: left;
+  padding: 14px 12px;
+}
+
+.workbench__queue button span:first-child {
+  font-weight: 700;
+}
+
+.workbench__layout {
+  display: grid;
+  grid-template-columns: minmax(150px, 220px) minmax(0, 1fr);
+  gap: 20px;
+}
+
+@media (max-width: 860px) {
+  .workbench__layout {
+    grid-template-columns: 1fr;
+  }
+}
+
 .status-verified,
 .status-verified_open,
 .status-confirmed,
